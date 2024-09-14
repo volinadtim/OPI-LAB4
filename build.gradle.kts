@@ -16,6 +16,7 @@ dependencies {
 //    implementation("javax.servlet:jstl:1.2")
     // https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api
     implementation("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0")
+    testImplementation("junit:junit:4.13.1")
 
     // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
     compileOnly("javax.servlet:javax.servlet-api:4.0.1")

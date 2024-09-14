@@ -11,8 +11,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -146,7 +148,9 @@ public class Rifle {
 
     private String getShooter() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        return facesContext.getExternalContext().getSessionId(true);
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true); // Create session if it doesn't exist
+        return session.getId(); // Get the session ID
     }
 
     private boolean containsCoordinate(float x, float y, float radius) {
