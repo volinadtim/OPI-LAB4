@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="db_con_ecl">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>Shot</class>
+        <properties>
+            <property name="eclipselink.jdbc.url" value="jdbc:postgresql://localhost:5432/web3"/>
+            <property name="eclipselink.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="eclipselink.jdbc.user" value="postgres"/>
+            <property name="eclipselink.jdbc.password" value="root"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="db_con">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>Shot</class>
+        <properties>
+            <property name="javax.jdbc.url" value="jdbc:postgresql://localhost:5432/web3"/>
+            <property name="javax.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.jdbc.user" value="postgres"/>
+            <property name="javax.jdbc.password" value="root"/>
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+        </properties>
+    </persistence-unit>
+</persistence>

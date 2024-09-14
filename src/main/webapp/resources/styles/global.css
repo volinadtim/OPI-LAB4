@@ -1,0 +1,80 @@
+* {
+	box-sizing: border-box;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #151719;
+	color: #6a6b6d;
+	padding-bottom: 60px;
+}
+
+.container {
+	max-width: 900px;
+	margin: auto;
+}
+
+.wrapper {
+    padding: 20px 20px;
+    border-radius: 10px;
+    background: #1b1e21;
+    box-shadow: 0 30px 100px -15px #0001, 0 30px 40px -10px #0002;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 24px;
+    margin: 0;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+a {
+	color: #6a6b6d;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+button, input[type="submit"] {
+	display: inline-block;
+	background: #15181a;
+	padding: 8px 15px;
+	color: #6a6b6d;
+	border: none;
+	border-radius: 5px;
+	line-height: 15px;
+	cursor: pointer;
+}
+
+button:disabled, input[type="submit"]:disabled {
+	cursor: default;
+}
+
+button:hover:not(:disabled), input[type="submit"]:hover:not(:disabled) {
+	background: #111315;
+    color: #525459;
+}
+
+input[type="text"], select {
+    display: inline-block;
+    border-radius: 3px;
+    line-height: 15px;
+    padding: 5px 10px;
+    background: #21262b;
+    color: #6a6b6d;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+form {
+	margin: 0;
+}

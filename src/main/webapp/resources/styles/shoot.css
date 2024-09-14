@@ -1,0 +1,40 @@
+.message {
+	width: 80%;
+    padding: 20px 20px 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: lowercase;
+
+    background: #1b1e21;
+    color: #6a6b6d;
+    box-shadow: 0 30px 100px -15px #0001, 0 30px 40px -10px #0002;
+}
+
+.message--error {
+	background: #261e23;
+    color: #8b7b85;
+    border-right: 4px solid #31262d;
+    border-bottom: 2px solid #31262d;
+    border-top: 1px solid #312a2e;
+    box-shadow: 0 20px 40px -25px #261e2352, 0 10px 20px -5px #261e2359;
+}
+
+table {
+    width: 100%;
+}
+
+thead {
+/*	background: #b5b8bf;*/
+}
+
+th {
+	text-align: left;
+	padding: 12px 2px;
+	font-weight: 500;
+}
+
+td {
+	padding: 12px 2px;
+}

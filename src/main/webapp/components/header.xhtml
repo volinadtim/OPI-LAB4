@@ -1,0 +1,81 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <div>
+        <script>
+            const UPDATE_TIME = #{rifle.updateTime} * 1000;
+        </script>
+
+        <header class="header">
+
+            <div class="container">
+
+                <a class="header_link" href="home.xhtml"> Добрый пожаловать </a>
+                <a class="header_link" href="shooter.xhtml"> Стрельбище </a>
+
+                <button class="header_button" onclick="clearShots()"> Clear Shots</button>
+
+                <div id="time" class="header_time"></div>
+                <div class="header_group">P3234</div>
+                <div class="header_student">Данилов Тимофей Николаевич</div>
+
+            </div>
+
+        </header>
+
+        <h:outputScript name="scripts/timer.js"/>
+        <h:outputScript name="scripts/clear-shots.js"/>
+    </div>
+
+    <style>
+
+        .header {
+            height: 80px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background: #eee;
+            background: #1b1e21;
+            color: #6a6b6d;
+            margin-bottom: 40px;
+        }
+
+        .header_link {
+            display: inline-block;
+            float: left;
+            margin-right: 20px;
+            line-height: 40px;
+        }
+
+        .header_button {
+            float: left;
+            margin-right: 20px;
+            margin-top: 5px;
+        }
+
+        .header_student {
+            display: inline-block;
+            float: right;
+            margin-right: 20px;
+            line-height: 40px;
+        }
+
+        .header_group {
+            display: inline-block;
+            float: right;
+            margin-right: 20px;
+            line-height: 40px;
+            font-weight: 500;
+        }
+
+        .header_time {
+            display: inline-block;
+            float: right;
+            line-height: 40px;
+            font-weight: 500;
+        }
+
+
+    </style>
+
+</ui:composition>

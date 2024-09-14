@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:16.1
+    restart: always
+    container_name: web3-postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=s368086
+      - POSTGRES_PASSWORD=nM0U2olR6fGQfedJ
+      - POSTGRES_DB=web3
+
+  admin:
+    image: adminer
+    restart: always
+    container_name: web3-admin
+    depends_on:
+      - postgres
+    ports:
+      - 9999:8080

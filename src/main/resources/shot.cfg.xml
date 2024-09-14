@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="my.web.Shot" table="shots">
+        <id name="id" type="int">
+            <generator class="identity"/>
+        </id>
+        <property name="x"/>
+        <property name="y"/>
+        <property name="radius"/>
+        <property name="hit"/>
+        <property name="date"/>
+        <property name="executionTime"/>
+        <property name="shooter"/>
+    </class>
+</hibernate-mapping>

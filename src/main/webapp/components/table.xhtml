@@ -1,0 +1,50 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ace="http://www.icefaces.org/icefaces/components">
+
+    <h:form id="results">
+        <div class="wrapper">
+            <p:dataTable var="shot" value="#{rifle.shots}">
+                <p:column headerText="ИКС">
+                    <h:outputText value="#{shot.x}"/>
+                </p:column>
+                <p:column headerText="ИГРеК">
+                    <h:outputText value="#{shot.y}"/>
+                </p:column>
+                <p:column headerText="РАДьОС'">
+                    <h:outputText value="#{shot.radius}"/>
+                </p:column>
+                <p:column headerText="Есть 🔫 пробитие">
+                    <h:outputText value="#{shot.hit}"/>
+                </p:column>
+                <p:column headerText="А Времечко?">
+                    <h:outputText value="#{shot.executionTime}"/>
+                </p:column>
+                <p:column headerText="А Другое?">
+                    <h:outputText value="#{shot.date}"/>
+                </p:column>
+            </p:dataTable>
+        </div>
+    </h:form>
+
+    <script>
+        const rows = Array.from(document.getElementsByTagName('tr')).slice(1);
+        rows.forEach(row => {
+            if (!row.children.length || !(row.children.length - 1)) return;
+            const x = row.children[0].innerText;
+            const y = row.children[1].innerText;
+            const hit = row.children[3].innerText === 'true';
+            dots.push({
+                x: x,
+                y: y,
+                hit: hit,
+            });
+        });
+    </script>
+
+</ui:composition>

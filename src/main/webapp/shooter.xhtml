@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ace="http://www.icefaces.org/icefaces/components">
+
+<h:head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
+    <h:outputStylesheet rel="stylesheet" name="styles/global.css"/>
+    <h:outputStylesheet rel="stylesheet" name="styles/shoot.css"/>
+    <h:outputStylesheet rel="stylesheet" name="styles/index.css"/>
+    <title>Web</title>
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
+</h:head>
+
+
+<h:body>
+    <script>
+
+        const xInputValue = #{rifle.coordinateX};
+        const yInputValue = #{rifle.coordinateY};
+        const rInputValue = #{rifle.radius};
+
+        const xInputMin = #{rifle.coordinateXInput.min};
+        const xInputMax = #{rifle.coordinateXInput.max};
+        const yInputMin = #{rifle.coordinateYInput.min};
+        const yInputMax = #{rifle.coordinateYInput.max};
+        const rInputMin = #{rifle.radiusInput.min};
+        const rInputMax = #{rifle.radiusInput.max};
+
+
+        const GRAPH = [
+            {
+                shape: '#{rifle.target.quadrant1 != null ? rifle.target.quadrant1.name : 'None'}',
+                width: #{rifle.target.quadrant1 != null ? rifle.target.quadrant1.width * 2 : 0 },
+                height: #{rifle.target.quadrant1 != null ? rifle.target.quadrant1.height * 2 : 0 },
+            },
+            {
+                shape: '#{rifle.target.quadrant2 != null ? rifle.target.quadrant2.name : 'None'}',
+                width: #{rifle.target.quadrant2 != null ? rifle.target.quadrant2.width * 2 : 0 },
+                height: #{rifle.target.quadrant2 != null ? rifle.target.quadrant2.height * 2 : 0 },
+            },
+            {
+                shape: '#{rifle.target.quadrant3 != null ? rifle.target.quadrant3.name : 'None'}',
+                width: #{rifle.target.quadrant3 != null ? rifle.target.quadrant3.width * 2 : 0 },
+                height: #{rifle.target.quadrant3 != null ? rifle.target.quadrant3.height * 2 : 0 },
+            },
+            {
+                shape: '#{rifle.target.quadrant4 != null ? rifle.target.quadrant4.name : 'None'}',
+                width: #{rifle.target.quadrant4 != null ? rifle.target.quadrant4.width * 2 : 0 },
+                height: #{rifle.target.quadrant4 != null ? rifle.target.quadrant4.height * 2 : 0 },
+            },
+        ]
+
+    </script>
+
+    <ui:include src="/components/header.xhtml"/>
+
+    <div class="container">
+
+        <div class="wrapper">
+
+            <h2>
+                Введите куда стреляем:
+            </h2>
+
+
+            <h:form>
+
+                <div class="form-field" id="coordinateXCont">
+                    <h:outputLabel value="Координата X:" for="coordinateX"/>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'selectOneRadio'}">
+                        <h:selectOneRadio id="coordinateX" value="#{rifle.coordinateX}">
+                            <f:selectItems value="#{rifle.coordinateXInput.options}"/>
+                        </h:selectOneRadio>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'selectOneMenu'}">
+                        <h:selectOneMenu id="coordinateX" value="#{rifle.coordinateX}">
+                            <f:selectItems value="#{rifle.coordinateXInput.options}"/>
+                        </h:selectOneMenu>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'selectBooleanCheckbox'}">
+                        <p>#{rifle.coordinateX}</p>
+                        <ui:repeat var="option" value="${rifle.coordinateXInput.options}">
+                            #{option}
+                            <h:selectBooleanCheckbox id="coordinateX"
+                                                     immediate="true"
+                                                     value="#{option == rifle.coordinateX}"
+                                                     onclick="#{rifle.setCoordinateX(option)}"
+                                                     valueChangeListener="#{rifle.setCoordinateX(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'commandButton'}">
+                        <p>#{rifle.coordinateX}</p>
+                        <ui:repeat var="option" value="${rifle.coordinateXInput.options}">
+                            <h:commandButton id="coordinateX" value="#{option}"
+                                             action="#{rifle.setCoordinateX(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'commandLink'}">
+                        <p>#{rifle.coordinateX}</p>
+                        <ui:repeat var="option" value="${rifle.coordinateXInput.options}">
+                            <h:commandLink id="coordinateX" value="#{option}"
+                                           action="#{rifle.setCoordinateX(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'inputText'}">
+                        <h:inputText id="coordinateX"
+                                     value="#{rifle.coordinateX}"
+                                     validator="#{rifle.validateCoordinateX}">
+                            <f:ajax/>
+                        </h:inputText>
+                        <div class="error">
+                            <h:message for="coordinateX"/>
+                        </div>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'p:spinner'}">
+                        <p:spinner id="coordinateX"
+                                   value="#{rifle.coordinateX}" min="#{rifle.coordinateXInput.min}"
+                                   max="#{rifle.coordinateXInput.max}" stepFactor="#{rifle.coordinateXInput.step}"/>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'p:slider'}" columns="1">
+                        <h:panelGrid style="margin-bottom: 10px">
+                            <p:inputText id="coordinateX" value="#{rifle.coordinateX}"/>
+                            <p:slider for="coordinateX"
+                                      minValue="#{rifle.coordinateXInput.min}"
+                                      maxValue="#{rifle.coordinateXInput.max}"
+                                      step="#{rifle.coordinateXInput.step}"
+                                      range="false"/>
+                        </h:panelGrid>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateXInput.type.label == 'ace:sliderEntry'}">
+                        <ace:sliderEntry id="coordinateX"
+                                         value="#{rifle.coordinateX}"
+                                         min="#{rifle.coordinateXInput.min}"
+                                         max="#{rifle.coordinateXInput.max}"
+                                         stepPercent="#{rifle.coordinateXInput.step}"/>
+                    </c:if>
+                </div>
+
+
+                <div class="form-field" id="coordinateYCont">
+                    <h:outputLabel value="Координата Y:" for="coordinateY"/>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'selectOneRadio'}">
+                        <h:selectOneRadio id="coordinateY" value="#{rifle.coordinateY}">
+                            <f:selectItems value="#{rifle.coordinateYInput.options}"/>
+                        </h:selectOneRadio>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'selectOneMenu'}">
+                        <h:selectOneMenu id="coordinateY" value="#{rifle.coordinateY}">
+                            <f:selectItems value="#{rifle.coordinateYInput.options}"/>
+                        </h:selectOneMenu>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'selectBooleanCheckbox'}">
+                        <p>#{rifle.coordinateY}</p>
+                        <ui:repeat var="option" value="${rifle.coordinateYInput.options}">
+                            #{option}
+                            <h:selectBooleanCheckbox id="coordinateY"
+                                                     immediate="true"
+                                                     value="#{option == rifle.coordinateY}"
+                                                     onclick="#{rifle.setCoordinateY(option)}"
+                                                     valueChangeListener="#{rifle.setCoordinateY(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'commandButton'}">
+                        <p>#{rifle.coordinateY}</p>
+                        <ui:repeat var="option" value="${rifle.coordinateYInput.options}">
+                            <h:commandButton id="coordinateY" value="#{option}"
+                                             action="#{rifle.setCoordinateY(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'commandLink'}">
+                        <p>#{rifle.coordinateY}</p>
+                        <ui:repeat var="option" value="${rifle.coordinateYInput.options}">
+                            <h:commandLink id="coordinateY" value="#{option}"
+                                           action="#{rifle.setCoordinateY(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'inputText'}">
+                        <h:inputText id="coordinateY"
+                                     value="#{rifle.coordinateY}"
+                                     validator="#{rifle.validateCoordinateY}">
+                            <f:ajax/>
+                        </h:inputText>
+                        <div class="error">
+                            <h:message for="coordinateY"/>
+                        </div>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'p:spinner'}">
+                        <p:spinner id="coordinateY"
+                                   value="#{rifle.coordinateY}" min="#{rifle.coordinateYInput.min}"
+                                   max="#{rifle.coordinateYInput.max}" stepFactor="#{rifle.coordinateYInput.step}"/>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'p:slider'}" columns="1">
+                        <h:panelGrid style="margin-bottom: 10px">
+                            <p:inputText id="coordinateY" value="#{rifle.coordinateY}"/>
+                            <p:slider for="coordinateY"
+                                      minValue="#{rifle.coordinateYInput.min}"
+                                      maxValue="#{rifle.coordinateYInput.max}"
+                                      step="#{rifle.coordinateYInput.step}"
+                                      range="false"/>
+                        </h:panelGrid>
+                    </c:if>
+
+                    <c:if test="#{rifle.coordinateYInput.type.label == 'ace:sliderEntry'}">
+                        <ace:sliderEntry id="coordinateY"
+                                         value="#{rifle.coordinateY}"
+                                         min="#{rifle.coordinateYInput.min}"
+                                         max="#{rifle.coordinateYInput.max}"
+                                         stepPercent="#{rifle.coordinateYInput.step}"/>
+                    </c:if>
+                </div>
+
+                <div class="form-field" id="radiusCont">
+                    <h:outputLabel value="Радиус:" for="radius"/>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'selectOneRadio'}">
+                        <h:selectOneRadio id="radius" value="#{rifle.radius}">
+                            <f:selectItems value="#{rifle.radiusInput.options}"/>
+                        </h:selectOneRadio>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'selectOneMenu'}">
+                        <h:selectOneMenu id="radius" value="#{rifle.radius}">
+                            <f:selectItems value="#{rifle.radiusInput.options}"/>
+                        </h:selectOneMenu>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'selectBooleanCheckbox'}">
+                        <p>#{rifle.radius}</p>
+                        <ui:repeat var="option" value="${rifle.radiusInput.options}">
+                            #{option}
+                            <h:selectBooleanCheckbox id="radius"
+                                                     immediate="true"
+                                                     value="#{option == rifle.radius}"
+                                                     onclick="#{rifle.setRadius(option)}"
+                                                     valueChangeListener="#{rifle.setRadius(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'commandButton'}">
+                        <p>#{rifle.radius}</p>
+                        <ui:repeat var="option" value="${rifle.radiusInput.options}">
+                            <h:commandButton id="radius" value="#{option}"
+                                             action="#{rifle.setRadius(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'commandLink'}">
+                        <p>#{rifle.radius}</p>
+                        <ui:repeat var="option" value="${rifle.radiusInput.options}">
+                            <h:commandLink id="radius" value="#{option}"
+                                           action="#{rifle.setRadius(option)}"/>
+                        </ui:repeat>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'inputText'}">
+                        <h:inputText id="radius"
+                                     value="#{rifle.radius}"
+                                     validator="#{rifle.validateradius}">
+                            <f:ajax/>
+                        </h:inputText>
+                        <div class="error">
+                            <h:message for="radius"/>
+                        </div>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'p:spinner'}">
+                        <p:spinner id="radius"
+                                   value="#{rifle.radius}" min="#{rifle.radiusInput.min}"
+                                   max="#{rifle.radiusInput.max}" stepFactor="#{rifle.radiusInput.step}"/>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'p:slider'}" columns="1">
+                        <h:panelGrid style="margin-bottom: 10px">
+                            <p:inputText id="radius" value="#{rifle.radius}"/>
+                            <p:slider for="radius"
+                                      minValue="#{rifle.radiusInput.min}"
+                                      maxValue="#{rifle.radiusInput.max}"
+                                      step="#{rifle.radiusInput.step}"
+                                      range="false"/>
+                        </h:panelGrid>
+                    </c:if>
+
+                    <c:if test="#{rifle.radiusInput.type.label == 'ace:sliderEntry'}">
+                        <ace:sliderEntry id="radius"
+                                         value="#{rifle.radius}"
+                                         min="#{rifle.radiusInput.min}"
+                                         max="#{rifle.radiusInput.max}"
+                                         stepPercent="#{rifle.radiusInput.step}"/>
+                    </c:if>
+                </div>
+
+
+                    <h:commandButton action="#{rifle.shoot}" id="submit" value="Сабмит"/>
+            </h:form>
+
+        </div>
+
+        <h:outputScript name="scripts/field.js"/>
+        <h:outputScript name="scripts/main.js"/>
+
+        <ui:include src="/components/chart.xhtml"/>
+        <ui:include src="/components/table.xhtml"/>
+
+    </div>
+
+    <!--    <h:outputScript name="scripts/main.js" />-->
+
+</h:body>
+
+</html>
