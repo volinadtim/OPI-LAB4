@@ -15,7 +15,7 @@
 
     <h:panelGroup id="tableRenderPanel" rendered="#{type == 'inputText'}">
         <ui:include src="inputs/inputText.xhtml">
-            <ui:param name="label" value="Координата X"/>
+            <ui:param name="label" value="#{message.coordinateX}"/>
             <ui:param name="type" value="inputText"/>
             <ui:param name="options" value="#{['val1', 'val2', 'val3']}"/>
             <ui:param name="type" value="inputText"/>
@@ -29,7 +29,7 @@
     <h:inputText id="coordinateX" value="#{rifle.coordinateX}" maxlength="9"/>
 
     <div class="form-field" id="coordinateYCont">
-        <h:outputLabel value="Координата Y:" for="coordinateY"/>
+        <h:outputLabel value="#{message.coordinateY}:" for="coordinateY"/>
         <h:inputText id="coordinateY" value="#{rifle.coordinateY}" maxlength="9"/>
 
     </div>

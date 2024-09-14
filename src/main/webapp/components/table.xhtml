@@ -10,22 +10,22 @@
     <h:form id="results">
         <div class="wrapper">
             <p:dataTable var="shot" value="#{rifle.shots}">
-                <p:column headerText="ИКС">
+                <p:column headerText="#{message.tableX}">
                     <h:outputText value="#{shot.x}"/>
                 </p:column>
-                <p:column headerText="ИГРеК">
+                <p:column headerText="#{message.tableY}">
                     <h:outputText value="#{shot.y}"/>
                 </p:column>
-                <p:column headerText="РАДьОС'">
+                <p:column headerText="#{message.tableRadius}">
                     <h:outputText value="#{shot.radius}"/>
                 </p:column>
-                <p:column headerText="Есть 🔫 пробитие">
+                <p:column headerText="#{message.tableHit}">
                     <h:outputText value="#{shot.hit}"/>
                 </p:column>
-                <p:column headerText="А Времечко?">
+                <p:column headerText="#{message.tableExecutionTime}">
                     <h:outputText value="#{shot.executionTime}"/>
                 </p:column>
-                <p:column headerText="А Другое?">
+                <p:column headerText="#{message.tableDate}">
                     <h:outputText value="#{shot.date}"/>
                 </p:column>
             </p:dataTable>

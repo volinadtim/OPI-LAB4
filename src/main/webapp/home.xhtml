@@ -11,10 +11,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
     <h:outputStylesheet rel="stylesheet" name="styles/global.css"/>
     <h:outputStylesheet rel="stylesheet" name="styles/shoot.css"/>
     <h:outputStylesheet rel="stylesheet" name="styles/index.css"/>
-    <title>Web</title>
+    <title>#{message.title}</title>
 </h:head>
 
 
@@ -25,8 +26,8 @@
 
     <div class="container">
         <div class="wrapper">
-            <h4>Привет. Это моя очень стартовая страница. Она очень важна и без неё мне не заплатят. Можешь <a
-                    href="shooter.xhtml">идти</a> своей дорогой. </h4>
+            <h4>#{message.homePageTitle} <a
+                    href="shooter.xhtml">#{message.homePageTitleGo}</a> #{message.homePageTitleRoad} </h4>
         </div>
     </div>
 </h:body>

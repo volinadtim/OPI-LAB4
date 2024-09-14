@@ -6,8 +6,8 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>Лабораторная №3 - ошибка клиента</title>
-    <meta name="description" content="Лабораторная работа №3 по дисциплине веб-программирование - ошибка клиента"/>
+    <title>#{message.404title}</title>
+    <meta name="description" content="#{message.404title}"/>
     <meta charset="utf-8" />
 </h:head>
 
@@ -15,9 +15,9 @@
 
     <main>
         <h1 id="404">404</h1>
-        <h2>Ничего не найдено</h2>
-        <p>Страница, которую вы запрашиваете, отсутствует, проверьте url-адрес.<br/>
-            <a href="home.jsf">Вернуться на домашную страницу</a>
+        <h2>#{message.404NotingFound}</h2>
+        <p>#{message.404Message}<br/>
+            <a href="home.jsf">#{message.404GoHome}</a>
         </p>
     </main>
 

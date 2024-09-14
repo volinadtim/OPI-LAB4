@@ -15,7 +15,7 @@
     <h:outputStylesheet rel="stylesheet" name="styles/global.css"/>
     <h:outputStylesheet rel="stylesheet" name="styles/shoot.css"/>
     <h:outputStylesheet rel="stylesheet" name="styles/index.css"/>
-    <title>Web</title>
+    <title>#{message.title}</title>
     <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
     <!--    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
 </h:head>
@@ -68,14 +68,14 @@
         <div class="wrapper">
 
             <h2>
-                Введите куда стреляем:
+                #{message.shooterTitle}
             </h2>
 
 
             <h:form>
 
                 <div class="form-field" id="coordinateXCont">
-                    <h:outputLabel value="Координата X:" for="coordinateX"/>
+                    <h:outputLabel value="#{message.coordinateX}:" for="coordinateX"/>
 
                     <c:if test="#{rifle.coordinateXInput.type.label == 'selectOneRadio'}">
                         <h:selectOneRadio id="coordinateX" value="#{rifle.coordinateX}">
@@ -156,7 +156,7 @@
 
 
                 <div class="form-field" id="coordinateYCont">
-                    <h:outputLabel value="Координата Y:" for="coordinateY"/>
+                    <h:outputLabel value="#{message.coordinateY}:" for="coordinateY"/>
 
                     <c:if test="#{rifle.coordinateYInput.type.label == 'selectOneRadio'}">
                         <h:selectOneRadio id="coordinateY" value="#{rifle.coordinateY}">
@@ -236,7 +236,7 @@
                 </div>
 
                 <div class="form-field" id="radiusCont">
-                    <h:outputLabel value="Радиус:" for="radius"/>
+                    <h:outputLabel value="#{message.radius}:" for="radius"/>
 
                     <c:if test="#{rifle.radiusInput.type.label == 'selectOneRadio'}">
                         <h:selectOneRadio id="radius" value="#{rifle.radius}">
@@ -316,7 +316,7 @@
                 </div>
 
 
-                    <h:commandButton action="#{rifle.shoot}" id="submit" value="Сабмит"/>
+                    <h:commandButton action="#{rifle.shoot}" id="submit" value="#{message.shooterSubmit}"/>
             </h:form>
 
         </div>

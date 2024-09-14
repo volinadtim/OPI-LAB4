@@ -8,4 +8,14 @@
         <managed-bean-class>my.web.Rifle</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>message</var>
+        </resource-bundle>
+    </application>
 </faces-config>
