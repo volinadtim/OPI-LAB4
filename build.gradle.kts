@@ -27,6 +27,8 @@ dependencies {
     implementation("javax.persistence:javax.persistence-api:2.2")
     // https://mvnrepository.com/artifact/com.sun.faces/jsf-impl
     implementation("com.sun.faces:jsf-impl:2.2.20")
+    // https://mvnrepository.com/artifact/xerces/xercesImpl
+    implementation("xerces:xercesImpl:2.12.2")
 
     // https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-servlet-api
 //    implementation("org.apache.tomcat:tomcat-servlet-api:11.0.0-M11")

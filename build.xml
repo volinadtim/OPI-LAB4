@@ -11,6 +11,7 @@
 
     <path id="classpath.test">
         <pathelement location="${junit}"/>
+        <pathelement location="${hamcrest}"/>
         <pathelement location="${classes.dir}"/>
     </path>
 
@@ -91,6 +92,12 @@
         <echo message="***** TEST COMPLETED *****"/>
     </target>
 
+    <!-- SCP target -->
+    <target name="scp" depends="build">
+        <scp file="${build.jar.dir}/${jar.name}" todir="${remote.server.dir}"
+             host="${remote.server.host}" username="${remote.server.user}" password="${remote.server.password}"/>
+    </target>
+
     <target name="native2ascii">
         <echo message="***** NATIVE2ASCII STARTED *****"/>
         <delete dir="${native2ascii.resources}"/>
@@ -99,4 +106,28 @@
                       includes="**/*.properties"/>
         <echo message="***** NATIVE2ASCII COMPLETED *****"/>
     </target>
+
+    <!-- Music target -->
+    <target name="music" depends="build">
+        <sound>
+            <success source="${music.success.file}"/>
+            <fail source="${music.fail.file}"/>
+        </sound>
+        <property name="build" value="true"/>
+<!--        <exec executable="play" dir="${music.dir}">-->
+<!--            <arg value="${music.file}"/>-->
+<!--        </exec>-->
+    </target>
+
+    <!-- XML validation target -->
+    <target name="xml">
+        <xmlvalidate failonerror="no" lenient="yes" warn="yes"
+                     classname="org.apache.xerces.parsers.SAXParser"
+                     classpath="lib/xercesImpl.jar">
+            <fileset dir="${src.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </xmlvalidate>
+    </target>
+
 </project>
