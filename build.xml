@@ -185,4 +185,81 @@
         </concat>
     </target>
 
+
+    <!-- History target -->
+    <target name="-history-attempt">
+        <property name="last_failing_version" value="qwe" />
+
+        <!-- Attempt to checkout -->
+        <trycatch property="exception.message" reference="exception.object">
+        <try>
+        
+            <var name="last_failing_version" unset="true"/>
+            <exec executable="git" failonerror="true" outputproperty="last_failing_version">
+                <arg value="rev-parse"/>
+                <arg value="HEAD"/>
+            </exec>
+
+            <echo message="${last_failing_version}" />
+            
+            <exec executable="git" failonerror="true" errorproperty="git_error">
+                <arg value="checkout"/>
+                <arg value="HEAD~"/>
+            </exec>
+
+            <!-- Attempt to compile -->
+            <trycatch property="exception.message" reference="exception.object">
+                <try>
+                    <antcall target="compile">
+                        <!--                    <fail message="Compilation failed for revision ${current.revision}."/>-->
+                    </antcall>
+                </try>
+                <catch>
+                    <antcallback target="-history-attempt" return="last_failing_version" />
+                </catch>
+            </trycatch>
+        </try>
+            <catch>
+                <echo message="***** CHECKOUT FAIL *****"/>
+                <fail message="${git_error}"/>
+            </catch>
+        </trycatch>
+
+        <!-- Success -->
+    </target>
+
+    <!-- History target -->
+    <target name="history">
+        <echo message="***** HISTORY STARTED *****"/>
+
+        <trycatch property="exception.message" reference="exception.object">
+            <try>
+                <antcall target="compile" />
+                <echo message="***** COMPILE SUCCESSES INITIALLY *****"/>
+            </try>
+            <catch>
+                <trycatch property="exception.message" reference="exception.object">
+                    <try>
+                    <antcallback target="-history-attempt" return="last_failing_version" />
+
+                    <!-- Generate diff file for modified files in the last working revision -->
+                    <exec executable="git" failonerror="true" outputproperty="diff.output" errorproperty="git_error">
+                        <arg value="diff"/>
+                        <arg value="HEAD..${last_failing_version}"/>
+                    </exec>
+
+                    <echo message="HEAD..${last_failing_version}" />
+
+                    <!-- Save diff output to a file -->
+                    <echo file="${build.diff}">
+                        ${diff.output}
+                    </echo>
+                    </try>
+                    <catch>
+                        <fail message="${git_error}" />
+                    </catch>
+                </trycatch>
+            </catch>
+        </trycatch>
+    </target>
 </project>
