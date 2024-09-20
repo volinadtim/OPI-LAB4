@@ -12,7 +12,7 @@
     <path id="classpath.test">
         <pathelement location="${junit}"/>
         <pathelement location="${hamcrest}"/>
-        <pathelement location="${classes.dir}"/>
+        <pathelement location="${build.classes.dir}"/>
     </path>
 
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -29,9 +29,9 @@
 
     <target name="compile" depends="clean">
         <echo message="***** COMPILE STARTED *****"/>
-        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
         <mkdir dir="${test.classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"/>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" classpathref="classpath" includeantruntime="false"/>
         <echo message="***** COMPILE COMPLETED *****"/>
     </target>
 
@@ -43,23 +43,23 @@
         <copy todir="${build.dir.lib}">
             <fileset dir="${lib.dir}"/>
         </copy>
-        <copy todir="${classes.dir}">
+        <copy todir="${build.classes.dir}">
             <fileset dir="${resources.dir}"/>
         </copy>
-        <jar destfile="${build.dir}/${ant.project.name}.jar">
-            <fileset dir="${classes.dir}"/>
+        <jar destfile="${build.dir}/${build.jar}">
+            <fileset dir="${build.classes.dir}"/>
             <manifest>
-                <attribute name="Created-By" value="nyapsilon"/>
+                <attribute name="Created-By" value="volin"/>
                 <attribute name="Manifest-Version" value="1.0"/>
-                <attribute name="Main-Class" value="NoClass"/>
+                <attribute name="Main-Class" value="${main_class}"/>
             </manifest>
         </jar>
         <war destfile="${build.dir}/${ant.project.name}.war" webxml="${build.web.xml}">
             <fileset dir="${build.dir}"/>
             <manifest>
-                <attribute name="Created-By" value="nyapsilon"/>
+                <attribute name="Created-By" value="volin"/>
                 <attribute name="Manifest-Version" value="1.0"/>
-                <attribute name="Main-Class" value="NoClass"/>
+                <attribute name="Main-Class" value="${main_class}"/>
             </manifest>
         </war>
         <echo message="***** BUILD COMPLETED *****"/>
@@ -94,8 +94,8 @@
 
     <!-- SCP target -->
     <target name="scp" depends="build">
-        <scp file="${build.jar.dir}/${jar.name}" todir="${remote.server.dir}"
-             host="${remote.server.host}" username="${remote.server.user}" password="${remote.server.password}"/>
+        <scp file="${build.dir}/${build.jar}" todir="${remote.server.dir}"
+             port="${remote.server.port}" />
     </target>
 
     <target name="native2ascii">

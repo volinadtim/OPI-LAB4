@@ -10,6 +10,9 @@ repositories {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/com.jcraft/jsch
+    implementation("com.jcraft:jsch:0.1.55")
+
     // https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api
     implementation("javax.servlet.jsp.jstl:jstl-api:1.2")
     // https://mvnrepository.com/artifact/javax.servlet/jstl
