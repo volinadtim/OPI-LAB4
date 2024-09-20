@@ -130,4 +130,59 @@
         </xmlvalidate>
     </target>
 
+    <!-- Documentation target -->
+    <target name="doc" depends="build">
+        <mkdir dir="${build.javadoc.dir}"/>
+        <javadoc sourcepath="${src.dir}" destdir="${build.javadoc.dir}" classpathref="classpath">
+            <fileset dir="${src.dir}" defaultexcludes="yes">
+                <include name="**/*.java" />
+            </fileset>
+        </javadoc>
+        <zip destfile="${build.dir}/javadoc.zip">
+            <fileset dir="${build.javadoc.dir}"/>
+        </zip>
+
+
+        <!-- Generate MD5 and SHA-1 checksums -->
+        <checksum algorithm="MD5" file="${build.dir}/${build.jar}" todir="${build.dir}" />
+        <checksum algorithm="SHA-1" file="${build.dir}/${build.jar}" todir="${build.dir}" />
+
+
+        <!-- Read MD5 checksum value from the generated .md5 file -->
+        <loadfile property="checksum.md5"
+                  srcFile="${build.dir}/${build.jar}.MD5">
+            <filterchain>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <loadfile property="checksum.sha1"
+                  srcFile="${build.dir}/${build.jar}.SHA-1">
+            <filterchain>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+
+        <manifest file="${build.dir}/MANIFEST.MF" mode="update">
+            <section name="hash">
+                <attribute name="MD5" value="${checksum.md5}"></attribute>
+                <attribute name="SHA-1" value="${checksum.sha1}"></attribute>
+            </section>
+        </manifest>
+
+        
+        <!-- Checksums for all files instead of jars -->
+        <checksum algorithm="SHA-1" fileext=".sha1" format="MD5SUM" todir="${build.cache}/sha">
+            <fileset dir="${build.dir}" />
+        </checksum>
+        <concat destfile="${build.dir}/DIGEST.sha1sum">
+            <fileset dir="${build.cache}/sha" />
+        </concat>
+        <checksum algorithm="MD5" fileext=".md5" format="MD5SUM" todir="${build.cache}/md5">
+            <fileset dir="${build.dir}" />
+        </checksum>
+        <concat destfile="${build.dir}/DIGEST.md5sum">
+            <fileset dir="${build.cache}/md5" />
+        </concat>
+    </target>
+
 </project>
