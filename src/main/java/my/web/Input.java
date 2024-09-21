@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Поле Input чтобы красиво отображать.
+ */
 public final class Input {
     private final InputType type;
     private final List<Double> options;

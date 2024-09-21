@@ -53,6 +53,10 @@ public class Rifle {
     }
 
 
+    /**
+     * Получить координату X
+     * @return Собстна координата икс
+     */
     public float getCoordinateX() {
         return coordinateX;
     }
