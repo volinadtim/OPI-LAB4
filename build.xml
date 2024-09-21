@@ -262,4 +262,68 @@
             </catch>
         </trycatch>
     </target>
+
+    <!-- Diff target -->
+    <target name="diff">
+        <!-- Check SVN status -->
+        <exec executable="svn" failonerror="true" outputproperty="svn.status.output">
+            <arg value="status"/>
+        </exec>
+
+        <!-- Check if there are any modified files -->
+        <condition property="has.modified.files">
+            <contains string="${svn.status.output}" substring="M"/>
+        </condition>
+
+        <!-- If there are modified files, check if they are in the specified classes -->
+        <if>
+            <isset property="has.modified.files"/>
+            <then>
+                <echo message="Modified files detected. Checking against specified classes..."/>
+
+                <!-- Loop through each specified class -->
+                <for list="${specified.classes}" param="class">
+                    <sequential>
+
+
+                        <var name="class.diff.output" unset="true" />
+                        <exec executable="svn" failonerror="true" outputproperty="class.diff.output">
+                            <arg value="diff"/>
+                            <arg value="@{class}"/>
+                        </exec>
+                        
+                        <!-- <echo message="Modified classes @{class}" /> -->
+                        <!-- <echo message="${class.diff.output}" /> -->
+
+                        <!-- Check if there are differences for the class -->
+                        <condition property="class.has.diff">
+                            <not>
+                                <equals arg1="${class.diff.output}" arg2=""/>
+                            </not>
+                        </condition>
+
+                        <!-- If differences exist, commit changes -->
+                        <if>
+                            <isset property="class.has.diff"/>
+                            <then>
+                                <exec executable="svn" failonerror="true">
+                                    <arg value="add"/>
+                                    <arg value="@{class}"/>
+                                    <arg value="--force"/>
+                                </exec>
+                                <exec executable="svn" failonerror="true">
+                                    <arg value="commit"/>
+                                    <arg value="-m"/>
+                                    <arg value="'Committing changes for @{class}'"/>
+                                </exec>
+                            </then>
+                        </if>
+                    </sequential>
+                </for>
+            </then>
+            <else>
+                <echo message="No modified files detected."/>
+            </else>
+        </if>
+    </target>
 </project>

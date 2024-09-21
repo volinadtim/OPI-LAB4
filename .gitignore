@@ -43,3 +43,5 @@ bin/
 
 ### Docker Data
 /data/
+
+.svn
