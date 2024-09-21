@@ -363,6 +363,49 @@
         </exec>
     </target>
 
+    <!-- Environment target -->
+    <target name="env" depends="build">
+        <property file="wildfly.properties"/>
+
+        <!-- Deploy the WAR file to WildFly -->
+        <copy file="${build.dir}/${ant.project.name}.war" todir="${wildfly.home}/standalone/deployments"/>
+
+        <!-- Start WildFly -->
+        <exec executable="sh ${wildfly.home}/bin/standalone.sh" failonerror="true">
+            <arg value="-Djava.version=${java.version}"/>
+<!--            <arg line="${vm.args}"/>-->
+        </exec>
+
+        <!-- Optionally open the browser to access the application -->
+        <exec executable="xdg-open">
+            <arg value="${wildfly.host}/${context.path}"/>
+        </exec>
+    </target>
+
+    <!-- Environment target -->
+    <target name="env2" depends="build">
+        <java fork="true" classname="org.eclipse.jetty.server.Server">
+            <classpath>
+                <pathelement path="${lib.dir}/*"/>
+                <pathelement path="${build.classes.dir}"/>
+                <pathelement path="${build.dir}/${build.jar}"/>
+            </classpath>
+            <jvmarg value="-Djava.version=${java.version}"/>
+            <jvmarg value="-Djava.vendor=${java.vm.vendor}"/>
+<!--            <arg line="${vm.args}"/>-->
+<!--            <arg value="${webapp.dir}"/>-->
+        </java>
+<!--        <java fork="true" jar="${build.dir}/${build.jar}" failonerror="true">-->
+<!--            <classpath>-->
+<!--                <pathelement path="${build.classes.dir}"/>-->
+<!--                <pathelement path="${lib.dir}/*"/>-->
+<!--            </classpath>-->
+<!--            <jvmarg value="-Djava.version=${java.version}"/>-->
+<!--            <jvmarg value="-Djava.vendor=${java.vm.vendor}"/>-->
+<!--        </java>-->
+    </target>
+
+
     <!-- Diff target -->
     <target name="diff">
         <!-- Check SVN status -->
