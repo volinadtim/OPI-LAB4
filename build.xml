@@ -62,6 +62,8 @@
                 <attribute name="Main-Class" value="${main_class}"/>
             </manifest>
         </war>
+
+<!--        <antcall target="music" />-->
         <echo message="***** BUILD COMPLETED *****"/>
     </target>
 
@@ -108,7 +110,7 @@
             <success source="${music.success.file}"/>
             <fail source="${music.fail.file}"/>
         </sound>
-        <property name="build" value="true"/>
+        <property name="build.music" value="true"/>
 <!--        <exec executable="play" dir="${music.dir}">-->
 <!--            <arg value="${music.file}"/>-->
 <!--        </exec>-->
