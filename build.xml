@@ -75,19 +75,14 @@
     <target name="test" depends="build">
         <echo message="***** TEST STARTED *****"/>
         <mkdir dir="${test.classes.dir}"/>
-        <mkdir dir="${junit.report.dir}"/>
         <javac destdir="${test.classes.dir}" srcdir="${test.dir}" includeantruntime="false" encoding="utf-8">
             <classpath refid="classpath.test"/>
         </javac>
-        <junit printsummary="on" haltonfailure="true" haltonerror="true">
+        <junit fork="true" haltonfailure="true" haltonerror="true">
             <classpath>
                 <path refid="classpath.test"/>
                 <pathelement location="${test.classes.dir}"/>
             </classpath>
-            <batchtest fork="yes" todir="${junit.report.dir}">
-                <formatter type="plain"/>
-                <fileset dir="${test.dir}" includes="*Test.java"/>
-            </batchtest>
         </junit>
         <echo message="***** TEST COMPLETED *****"/>
     </target>
@@ -335,6 +330,37 @@
                 </trycatch>
             </catch>
         </trycatch>
+    </target>
+
+    <!-- Report target -->
+    <target name="report" depends="test">
+        <mkdir dir="${junit.report.dir}"/>
+        <junit fork="true" printsummary="on" haltonfailure="true" haltonerror="true">
+            <classpath>
+                <path refid="classpath.test"/>
+                <pathelement location="${test.classes.dir}"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${junit.report.dir}">
+                <fileset dir="${test.dir}" includes="*Test.java"/>
+            </batchtest>
+        </junit>
+        
+        <!-- Check if tests passed -->
+        <property file="${junit.report.dir}/TEST-*.xml"/>
+
+        <!-- Save the JUnit XML report -->
+        <copy todir="${svn.repo.dir}">
+            <fileset dir="${build.test.results.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+<!--        <copy file="${build.test.results.dir}/TEST-*.xml" todir="${svn.repo.dir}"/>-->
+        <exec executable="svn" failonerror="true">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="JUnit test results"/>
+        </exec>
     </target>
 
     <!-- Diff target -->
