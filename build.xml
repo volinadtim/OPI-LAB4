@@ -326,4 +326,48 @@
             </else>
         </if>
     </target>
+
+    <!-- Alternative target -->
+    <target name="alt" depends="clean">
+        <delete dir="${alt.dir}"/>
+        <mkdir dir="${alt.dir}"/>
+        <copy todir="${alt.dir}">
+            <fileset dir="${src.dir}"/>
+        </copy>
+
+        <move file="${alt.main.dir}/my/web/Shot.java" tofile="${alt.main.dir}/my/web/Crack.java"/>
+        <replaceregexp match="Shot" replace="Crack" flags="g">
+            <fileset dir="${alt.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </replaceregexp>
+        <move file="${alt.main.dir}/my/web/Rifle.java" tofile="${alt.main.dir}/my/web/Shotgun.java"/>
+        <replaceregexp match="Rifle" replace="Shotgun" flags="g">
+            <fileset dir="${alt.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </replaceregexp>
+        <replaceregexp match="message" replace="msgs" flags="g">
+            <fileset dir="${alt.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </replaceregexp>
+
+        <echo message="***** COMPILE STARTED *****"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+        <javac srcdir="${alt.dir}" destdir="${build.classes.dir}" classpathref="classpath" includeantruntime="false"/>
+        <echo message="***** COMPILE COMPLETED *****"/>
+
+
+        <jar destfile="${build.dir}/${build.jar}">
+            <fileset dir="${build.classes.dir}"/>
+            <manifest>
+                <attribute name="Created-By" value="volin"/>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="Main-Class" value="${main_class}"/>
+            </manifest>
+        </jar>
+    </target>
+
 </project>
