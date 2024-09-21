@@ -185,6 +185,80 @@
         </concat>
     </target>
 
+    <!-- Team target -->
+    <target name="team">
+        <property name="svn.url" value="file:///D:/Documents/itmo/OPI/lab3-svn/repo"/>
+        <property name="output.dir" value="../output"/>
+        <property name="zip.file" value="${output.dir}/jar_files.zip"/>
+
+
+        <exec executable="svn" outputproperty="svn_info">
+            <arg value="info"/>
+            <arg value="${svn.url}"/>
+        </exec>
+        
+        <propertyregex property="revision.number" input="${svn_info}" 
+                       regexp="Revision: (.*)" select="\1"/>
+        <property name="rev1" value="${revision.number}"/>
+
+        <math result="rev2">
+            <op datatype="int" op="-">
+                <num value="${rev1}" />
+                <num value="1"/>
+            </op>
+        </math>
+
+        <math result="rev3">
+            <op datatype="int" op="-">
+                <num value="${rev1}" />
+                <num value="2"/>
+            </op>
+        </math>
+
+        <math result="rev4">
+            <op datatype="int" op="-">
+                <num value="${rev1}" />
+                <num value="3"/>
+            </op>
+        </math>
+
+        <echo message="${rev2}" />
+        <echo message="${rev3}" />
+        <echo message="${rev4}" />
+
+        <mkdir dir="${output.dir}"/>
+
+
+        <for list="${rev2},${rev3},${rev4}" param="rev">
+            <sequential>
+                <var name="current_rev" unset="true" />
+                <property name="current_rev" value="@{rev}" />
+                
+                <mkdir dir="${output.dir}/rev-${current_rev}" />
+
+                <echo message="svn checkout ${svn.url} -r ${current_rev}" />
+
+                <exec executable="svn" dir="${output.dir}/rev-${current_rev}">
+                    <arg value="checkout"/>
+                    <arg value="${svn.url}"/>
+                    <arg value="-r"/>
+                    <arg value="${current_rev}"/>
+                </exec>
+
+                <!-- <exec executable="ant">
+                    <arg value="-version" />
+                </exec> -->
+                <exec executable="${env.ANT_HOME}/bin/ant" dir="${output.dir}/rev-${current_rev}/repo" />
+                
+            </sequential>
+        </for>
+        
+        <zip destfile="${zip.file}">
+            <fileset dir="${output.dir}/rev-${rev2}/repo/build" includes="**/*.jar" />
+            <fileset dir="${output.dir}/rev-${rev3}/repo/build" includes="**/*.jar" />
+            <fileset dir="${output.dir}/rev-${rev4}/repo/build" includes="**/*.jar" />
+        </zip>
+    </target>
 
     <!-- History target -->
     <target name="-history-attempt">
